@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div id="navbar">
+        <div id="backIconTime">
+            <img id="time1" src="https://escorenews.com/media/logo/t4632.png?78">
+        </div>
+        <div class="display">
+            <p id="hora">00</p>
+            <p>:</p>
+            <p id="minuto">00</p>
+            <p>:</p>
+            <p id="segundo">00</p>
+        </div>
+    </div>
+
+    <script>
+        let horas = '00';
+        let minutos = '00';
+        let segundos = '00';
+        let ligado = false;
+        horas = localStorage.getItem("hora");
+        minutos = localStorage.getItem("minuto");
+        segundos = localStorage.getItem("segundo");
+        document.getElementById('hora').innerHTML = localStorage.getItem("hora");
+        document.getElementById('minuto').innerHTML = localStorage.getItem("minuto");
+        document.getElementById('segundo').innerHTML = localStorage.getItem("segundo");
+
+        document.addEventListener('keydown', logKey);
+
+        function logKey(e) {
+            if (e.code == "Numpad1") {
+                if (ligado == false) {
+                    ligado = true;
+                    cornometro = setInterval(function() { segundo() }, 1000);
+                }
+                else{
+                    ligado = false;
+                    clearInterval(cornometro);
+                }
+            }
+            if (e.code == "Numpad2") {
+                segundos = '00';
+                minutos = '00';
+                horas = '00';
+                document.getElementById('hora').innerHTML = '00'
+                document.getElementById('minuto').innerHTML = '00'
+                document.getElementById('segundo').innerHTML = '00'
+            }
+        }
+
+        function segundo() {
+            //incrementa os segundos
+            segundos++;
+            if (segundos <= 9) {
+                segundos = '0' + segundos;
+            }
+            if (segundos == 60) {
+                //incrementa os minutos
+                minutos++;
+                if (minutos <= 9) {
+                    minutos = '0' + minutos;
+                }
+                if (minutos == 60) {
+
+                    minutos = '00';
+
+                    horas++;
+                    if (horas <= 9) {
+                        horas = '0' + horas;
+                    }
+
+                    document.getElementById('hora').innerHTML = horas
+                }
+                //Zerar os segundos
+                segundos = '00';
+                //escreve os minutos
+                document.getElementById('minuto').innerHTML = minutos
+            }
+
+            //escreve os segundos
+            document.getElementById('segundo').innerHTML = segundos
+            var hotat = horas;
+            var minutot = minutos;
+            var segundot = segundos;
+            localStorage.setItem("hora", hotat);
+            localStorage.setItem("minuto", minutot);
+            localStorage.setItem("segundo", segundot);
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>
